@@ -92,7 +92,7 @@ const loginWithEmailAndPassword = async (req, res) => {
         email: user.email
       },
       process.env.JWT_SECRET || 'your_jwt_secret',
-      { expiresIn: '1h' }
+      { expiresIn: '8h' }
     );
 
     res.json({ 

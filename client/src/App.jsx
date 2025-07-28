@@ -16,16 +16,18 @@ import Unauthorized from './pages/Unauthorized';
 import ProductList from './pages/Customer/ProductList';
 import Cart from './pages/Customer/Cart';
 import OrderSuccess from './pages/Customer/OrderSuccess';
+import CustomerProfile from './pages/Customer/Profile';
+import MyOrders from './pages/Customer/MyOrders';
 
 // Staff Pages
 import StaffDashboard from './pages/Staff/StaffDashboard';
 import OrderDetails from './pages/Staff/OrderDetails';
+import StaffProfile from './pages/Staff/Profile';
 
-// Home component - redirect to products for browsing
 const Home = () => {
   const { user, isAuthenticated } = useAuth();
   
-  // If authenticated, redirect based on role
+
   if (isAuthenticated) {
     if (user?.role === 'staff') {
       return <Navigate to="/staff/dashboard" replace />;
@@ -34,7 +36,6 @@ const Home = () => {
     }
   }
   
-  // If not authenticated, redirect to products for browsing
   return <Navigate to="/products" replace />;
 };
 
@@ -51,7 +52,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             
-            {/* Home Route - redirects to products */}
+            
             <Route path="/" element={<Home />} />
             
             {/* Public Product Route - anyone can browse */}
@@ -82,6 +83,22 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/customer/profile"
+              element={
+                <ProtectedRoute allowedRoles={['customer']}>
+                  <CustomerProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/customer/orders"
+              element={
+                <ProtectedRoute allowedRoles={['customer']}>
+                  <MyOrders />
+                </ProtectedRoute>
+              }
+            />
             
             {/* Staff Routes */}
             <Route
@@ -97,6 +114,14 @@ const App = () => {
               element={
                 <ProtectedRoute allowedRoles={['staff']}>
                   <OrderDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/staff/profile"
+              element={
+                <ProtectedRoute allowedRoles={['staff']}>
+                  <StaffProfile />
                 </ProtectedRoute>
               }
             />

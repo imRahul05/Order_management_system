@@ -444,60 +444,13 @@ npm run lint
 npm run build
 ```
 
-### Environment Variables
-- Update API base URL for production
-- Configure proper CORS settings
-- Set up SSL certificates
-
-### Deployment Platforms
-- **Vercel**: Recommended for React apps
-- **Netlify**: Alternative deployment option
-- **AWS S3 + CloudFront**: For enterprise deployments
 
 ## 🐛 Troubleshooting
 
-### Common Issues
 
-1. **API Connection Errors**
-   - Ensure backend server is running on port 8000
-   - Check CORS configuration
-   - Verify API endpoints match backend routes
-
-2. **Authentication Issues**
-   - Clear localStorage if tokens are corrupted
-   - Check JWT token expiration
-   - Verify user roles in database
-
-3. **Cart Not Updating**
-   - Check API responses in browser dev tools
-   - Verify cart endpoints are working
-   - Clear browser cache if needed
-
-4. **Route Protection Not Working**
-   - Check role assignments in user data
-   - Verify ProtectedRoute component implementation
-   - Check token validity
 
 ## 🤝 Contributing
 
-### Development Guidelines
-1. Follow React best practices
-2. Use functional components with hooks
-3. Maintain consistent code formatting
-4. Add proper error handling
-5. Update documentation for new features
-
-### Code Style
-- Use meaningful variable names
-- Add comments for complex logic
-- Follow component naming conventions
-- Maintain proper file organization
-
-## 📄 License
-
-This project is for educational/demonstration purposes.
-
-## 📞 Support
 
 For issues or questions:
 1. Check the troubleshooting section

@@ -39,8 +39,10 @@ OrderRouter.post("/cart/add-to-cart", verifyToken, isCustomer, async (req, res) 
       if (quantity <= 0) {
         return res.status(400).json({ message: "Quantity must be greater than 0" });
       }
-
+       
       const product = await Product.findById(productId);
+      
+      console.log(chalk.red("Product:", product));
       if (!product) {
         return res.status(404).json({ message: `Product ${productId} not found` });
       }
@@ -121,7 +123,7 @@ OrderRouter.post("/create", verifyToken, isCustomer, async (req, res) => {
 });
 
 // List all orders
-OrderRouter.get("/", verifyToken, hasValidRole, async (req, res) => {
+OrderRouter.get("/customer/orders", verifyToken, hasValidRole, async (req, res) => {
   try {
     const orders = await Order.find()
       .populate("customerId items.productId");

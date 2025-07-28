@@ -80,7 +80,7 @@ const OrderDetails = () => {
       });
       toast.success(`Order status updated to ${newStatus}`);
       setShowStatusDropdown(false);
-      fetchOrderDetails(); // Refresh order details
+      fetchOrderDetails(); 
     } catch (error) {
       const message = error.response?.data?.message || 'Failed to update order status';
       toast.error(message);
@@ -90,8 +90,8 @@ const OrderDetails = () => {
   };
 
   const getAvailableStatuses = () => {
-    const allStatuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled', 'completed'];
-    // Remove current status from available options
+    const allStatuses = ['placed', 'shipped', 'delivered', 'cancelled', 'completed'];
+ 
     return allStatuses.filter(status => 
       status.toLowerCase() !== order?.orderStatus?.toLowerCase()
     );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../api/axios';
+import Loader from '@/components/Loader';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -91,23 +92,23 @@ const Cart = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+       <Loader/>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Shopping Cart</h1>
+    <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-8">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Shopping Cart</h1>
       </div>
 
       {cartItems.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="text-gray-500 text-lg mb-4">Your cart is empty</div>
+        <div className="text-center py-8 sm:py-12 px-4">
+          <div className="text-gray-500 text-base sm:text-lg mb-4">Your cart is empty</div>
           <button
             onClick={() => navigate('/products')}
-            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
+            className="bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md hover:bg-blue-700 text-sm sm:text-base font-medium"
           >
             Continue Shopping
           </button>
@@ -117,54 +118,100 @@ const Cart = () => {
           {/* Cart Items */}
           <div className="bg-white rounded-lg shadow">
             {cartItems.map((item) => (
-              <div key={item._id} className="flex items-center p-6 border-b last:border-b-0">
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold">{item.productId.name}</h3>
-                  <p className="text-gray-600">${item.productId.price} each</p>
+              <div key={item._id} className="p-4 sm:p-6 border-b last:border-b-0">
+                {/* Mobile Layout */}
+                <div className="block sm:hidden space-y-3">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1 pr-4">
+                      <h3 className="text-base font-semibold leading-tight">{item.productId.name}</h3>
+                      <p className="text-sm text-gray-600 mt-1">₹{item.productId.price} each</p>
+                    </div>
+                    <button
+                      onClick={() => removeItem(item)}
+                      className="text-red-600 hover:text-red-800 text-sm font-medium"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                        className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 text-sm"
+                      >
+                        -
+                      </button>
+                      <span className="w-12 text-center text-sm">{item.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                        className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 text-sm"
+                      >
+                        +
+                      </button>
+                    </div>
+                    
+                    <div className="text-lg font-semibold">
+                      ₹{(item.productId.price * item.quantity).toFixed(2)}
+                    </div>
+                  </div>
                 </div>
-                
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => updateQuantity(item._id, item.quantity - 1)}
-                      className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
-                    >
-                      -
-                    </button>
-                    <span className="w-12 text-center">{item.quantity}</span>
-                    <button
-                      onClick={() => updateQuantity(item._id, item.quantity + 1)}
-                      className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
-                    >
-                      +
-                    </button>
+
+                {/* Desktop Layout */}
+                <div className="hidden sm:flex items-center">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold">{item.productId.name}</h3>
+                    <p className="text-gray-600">₹{item.productId.price} each</p>
                   </div>
                   
-                  <div className="text-lg font-semibold w-20 text-right">
-                    ${(item.productId.price * item.quantity).toFixed(2)}
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                        className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
+                      >
+                        -
+                      </button>
+                      <span className="w-12 text-center">{item.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                        className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
+                      >
+                        +
+                      </button>
+                    </div>
+                    
+                    <div className="text-lg font-semibold w-20 text-right">
+                      ₹{(item.productId.price * item.quantity).toFixed(2)}
+                    </div>
+                    
+                    <button
+                      onClick={() => removeItem(item)}
+                      className="text-red-600 hover:text-red-800 ml-4"
+                    >
+                      Remove
+                    </button>
                   </div>
-                  
-                  <button
-                    onClick={() => removeItem(item)}
-                    className="text-red-600 hover:text-red-800 ml-4"
-                  >
-                    Remove
-                  </button>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Order Summary */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex justify-between items-center text-xl font-bold mb-4">
-              <span>Total: ${calculateTotal()}</span>
+         
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 space-y-2 sm:space-y-0">
+              <div className="text-lg sm:text-xl font-bold text-center sm:text-left">
+                Total: ₹{calculateTotal()}
+              </div>
+              <div className="text-sm text-gray-600 text-center sm:text-right">
+                {cartItems.length} item{cartItems.length !== 1 ? 's' : ''} in cart
+              </div>
             </div>
             
-            <div className="flex space-x-4">
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
               <button
                 onClick={() => navigate('/products')}
-                className="flex-1 bg-gray-200 text-gray-800 py-3 px-6 rounded-md hover:bg-gray-300"
+                className="w-full sm:flex-1 bg-gray-200 text-gray-800 py-3 px-4 sm:px-6 rounded-md hover:bg-gray-300 text-sm sm:text-base font-medium"
               >
                 Continue Shopping
               </button>
@@ -172,7 +219,7 @@ const Cart = () => {
               <button
                 onClick={checkout}
                 disabled={checkoutLoading}
-                className={`flex-1 py-3 px-6 rounded-md text-white ${
+                className={`w-full sm:flex-1 py-3 px-4 sm:px-6 rounded-md text-white text-sm sm:text-base font-medium ${
                   checkoutLoading
                     ? 'bg-blue-400 cursor-not-allowed'
                     : 'bg-blue-600 hover:bg-blue-700'

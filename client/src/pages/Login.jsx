@@ -156,7 +156,7 @@ const Login = () => {
             <div className="bg-indigo-50 rounded-lg p-3">
               <div className="font-medium text-indigo-900 mb-1">Staff Account</div>
               <div className="text-indigo-700">staff@gmail.com</div>
-              <div className="text-indigo-700">staff@staff</div>
+              <div className="text-indigo-700">staff@gmail.com</div>
             </div>
           </div>
         </div>

@@ -20,18 +20,16 @@ const ProductCard = ({ product, onAddToCart, isLoading = false, showAddToCart = 
           {product.name}
         </h3>
         
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+        <p className="text-gray-600 text-sm mb-3 line-clamp-1 overflow-hidden">
           {product.description}
         </p>
         
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold text-blue-600">
-            ${product.price}
+            ₹{product.price}
           </span>
           
-          <div className="text-sm text-gray-500">
-            Stock: {product.stock}
-          </div>
+       
         </div>
         
         {showAddToCart && (
