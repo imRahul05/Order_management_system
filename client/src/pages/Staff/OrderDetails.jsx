@@ -47,7 +47,7 @@ const OrderDetails = () => {
     try {
       await api.patch(`/orders/staff/${id}/lock`);
       toast.success('Order locked successfully');
-      fetchOrderDetails(); // Refresh order details
+      fetchOrderDetails(); 
     } catch (error) {
       const message = error.response?.data?.message || 'Failed to lock order';
       toast.error(message);
@@ -62,7 +62,7 @@ const OrderDetails = () => {
     try {
       await api.patch(`/orders/staff/${id}/unlock`);
       toast.success('Order unlocked successfully');
-      fetchOrderDetails(); // Refresh order details
+      fetchOrderDetails(); 
     } catch (error) {
       const message = error.response?.data?.message || 'Failed to unlock order';
       toast.error(message);
