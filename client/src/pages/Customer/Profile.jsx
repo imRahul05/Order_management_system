@@ -4,7 +4,8 @@ import { toast } from 'react-toastify';
 import api from '../../api/axios';
 
 const CustomerProfile = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, fetchUserProfile } = useAuth();
+  console.log(user)
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -13,17 +14,40 @@ const CustomerProfile = () => {
     confirmPassword: ''
   });
   const [loading, setLoading] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(true);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
 
   useEffect(() => {
+    loadUserProfile();
+  }, []);
+
+  const loadUserProfile = async () => {
+    setProfileLoading(true);
+    try {
+      const result = await fetchUserProfile();
+      if (result.success && result.user) {
+        setFormData({
+          username: result.user.username || '',
+          email: result.user.email || '',
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        });
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error);
+    } finally {
+      setProfileLoading(false);
+    }
+  };
+
+  useEffect(() => {
     if (user) {
-      setFormData({
+      setFormData(prev => ({
+        ...prev,
         username: user.username || '',
-        email: user.email || '',
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
-      });
+        email: user.email || ''
+      }));
     }
   }, [user]);
 
@@ -96,6 +120,14 @@ const CustomerProfile = () => {
     }
   };
 
+  if (profileLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-600 border-t-transparent"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
@@ -137,6 +169,7 @@ const CustomerProfile = () => {
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
+                  disabled
                 />
               </div>
 
@@ -256,7 +289,7 @@ const CustomerProfile = () => {
               <div>
                 <p className="text-sm text-gray-600">User ID</p>
                 <p className="font-mono text-sm text-gray-800">
-                  {user?._id ? user._id.slice(-8) : 'N/A'}
+                  {user?.id ? user.id.slice(-8) : 'N/A'}
                 </p>
               </div>
             </div>

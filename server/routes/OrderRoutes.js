@@ -4,6 +4,7 @@ import { hasValidRole, isCustomer, isStaff, verifyToken } from "../middlewares/a
 import { Order } from "../models/Order.js";
 import { Cart } from "../models/Cart.js";
 import chalk from "chalk";
+import User from "../models/User.js";
 
 const OrderRouter = express.Router();  
 
@@ -206,6 +207,7 @@ OrderRouter.delete("/cart/clear", verifyToken, isCustomer, async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
+
 
 
 

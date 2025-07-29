@@ -81,6 +81,23 @@ export const AuthProvider = ({ children }) => {
     setUser(updatedUser);
   };
 
+  const fetchUserProfile = async () => {
+    try {
+      const response = await api.get('/user/profile');
+      const userData = response.data.user || response.data;
+      
+      // Update both state and localStorage with fresh data
+      localStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData);
+      
+      return { success: true, user: userData };
+    } catch (error) {
+      const message = error.response?.data?.message || 'Failed to fetch profile';
+      toast.error(message);
+      return { success: false, message };
+    }
+  };
+
   const value = {
     user,
     token,
@@ -88,6 +105,7 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     updateUser,
+    fetchUserProfile,
     loading,
     isAuthenticated: !!token,
     isCustomer: user?.role === 'customer',
