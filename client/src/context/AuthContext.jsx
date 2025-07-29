@@ -39,6 +39,9 @@ export const AuthProvider = ({ children }) => {
       setToken(token);
       setUser(user);
       
+
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       toast.success('Login successful!');
       return { success: true, user };
     } catch (error) {
@@ -107,7 +110,7 @@ export const AuthProvider = ({ children }) => {
     updateUser,
     fetchUserProfile,
     loading,
-    isAuthenticated: !!token,
+    isAuthenticated: !!token && !!user,
     isCustomer: user?.role === 'customer',
     isStaff: user?.role === 'staff'
   };

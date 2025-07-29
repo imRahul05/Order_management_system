@@ -55,7 +55,8 @@ const Login = () => {
     const result = await login(credentials.email, credentials.password);
     
     if (result.success) {
-      const redirectPath = from === '/' ? redirectByRole(result.user) : from;
+      // Force correct redirect based on user type, ignore 'from' parameter for guest logins
+      const redirectPath = userType === 'staff' ? '/staff/dashboard' : '/customer/products';
       navigate(redirectPath, { replace: true });
     }
     
