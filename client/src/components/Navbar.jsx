@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -152,13 +153,21 @@ return (
                         <>
                             <Link 
                                 to="/login" 
-                                className="hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium"
+                                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                                    location.pathname === '/login'
+                                        ? 'bg-white text-blue-600 border border-white'
+                                        : 'hover:bg-blue-700'
+                                }`}
                             >
                                 Login
                             </Link>
                             <Link 
                                 to="/register" 
-                                className="bg-blue-700 hover:bg-blue-800 px-3 py-2 rounded-md text-sm font-medium"
+                                className={`px-4 py-2 rounded-md text-sm font-medium border transition-colors duration-200 ${
+                                    location.pathname === '/register'
+                                        ? 'bg-white text-blue-600 border-white hover:bg-gray-100'
+                                        : 'bg-blue-700 text-white border-blue-700 hover:bg-blue-800'
+                                }`}
                             >
                                 Register
                             </Link>
