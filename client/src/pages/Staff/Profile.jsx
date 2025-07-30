@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import api from '../../api/axios';
+import Loader from '@/components/Loader';
 
 const StaffProfile = () => {
   const { user, updateUser, fetchUserProfile } = useAuth();
@@ -145,7 +146,7 @@ const StaffProfile = () => {
   if (profileLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-600 border-t-transparent"></div>
+        <Loader/>
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../api/axios';
+import Loader from '@/components/Loader';
 
 const StaffDashboard = () => {
   const [orders, setOrders] = useState([]);
@@ -65,7 +66,7 @@ const StaffDashboard = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        <Loader/>
       </div>
     );
   }
