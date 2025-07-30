@@ -4,7 +4,7 @@ const ProductCard = ({ product, onAddToCart, isLoading = false, showAddToCart = 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
       <div className="h-48 bg-gray-200 flex items-center justify-center">
-        {product.image ? (
+        {product.images ? (
           <img 
             src={product.image} 
             alt={product.name}
